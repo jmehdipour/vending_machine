@@ -10,6 +10,10 @@ This project is a vending machine system with a back-end API built using PHP Lum
 - **Testing**: The project includes feature tests for the endpoints and unit tests for controllers and repositories.
 - **Docker Compose**: The project uses Docker Compose to simplify testing and development environments.
 
+<div style="text-align: center;">
+  <img src="doc/vending-machine.png" alt="Vending Machine Diagram" width="۸00" />
+</div>
+
 ## Endpoints
 
 ### 1. `GET /api/machines`
