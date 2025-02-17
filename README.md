@@ -86,8 +86,6 @@ Select a product from the specified vending machine.
 
 ## Database Schema
 
-## Database Schema
-
 ### Machine
 ```json
 {
