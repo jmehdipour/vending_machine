@@ -1,0 +1,53 @@
+{
+    "info": {
+        "_postman_id": "12345678-1234-5678-1234-567812345678",
+        "name": "Vending Machine API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "variable": [
+        {
+            "key": "baseUrl",
+            "value": "http://localhost:8000/api"
+        }
+    ],
+    "item": [
+        {
+            "name": "Get All Machines",
+            "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/machines"
+            }
+        },
+        {
+            "name": "Get Machine Products",
+            "request": {
+                "method": "GET",
+                "url": "{{baseUrl}}/machines/1/products"
+            }
+        },
+        {
+            "name": "Insert Coin",
+            "request": {
+                "method": "POST",
+                "url": "{{baseUrl}}/machines/1/insert-coin",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ]
+            }
+        },
+        {
+            "name": "Select Product",
+            "request": {
+                "method": "POST",
+                "url": "{{baseUrl}}/machines/1/select-product",
+                "header": [
+                    { "key": "Content-Type", "value": "application/json" }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\"productId\": 2}"
+                }
+            }
+        }
+    ]
+}

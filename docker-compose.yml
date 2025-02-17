@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  php:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vending_machine
+    volumes:
+      - .:/var/www
+    networks:
+      - vending_machine_network
+    depends_on:
+      - mysql
+    environment:
+      - DB_CONNECTION=mysql
+      - DB_HOST=mysql
+      - DB_PORT=3306
+      - DB_DATABASE=vending_machine
+      - DB_USERNAME=root
+      - DB_PASSWORD=root
+    ports:
+      - "8080:8080"
+    working_dir: /var/www
+    entrypoint: ["/bin/sh", "-c", "sleep 10 && php artisan migrate:fresh --force && php artisan db:seed --force && php -S 0.0.0.0:8080 -t public"]
+
+  mysql:
+    image: mariadb:10.5
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: vending_machine
+    volumes:
+      - b_data:/var/lib/mysql
+    networks:
+      - vending_machine_network
+
+volumes:
+  db_data:
+
+networks:
+  vending_machine_network:
+    driver: bridge

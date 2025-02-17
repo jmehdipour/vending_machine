@@ -1,0 +1,118 @@
+openapi: 3.0.0
+info:
+  title: Vending Machine API
+  description: API documentation for the vending machine system.
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Local development server
+
+paths:
+  /api/machines:
+    get:
+      summary: Get all vending machines
+      operationId: getAllMachines
+      tags:
+        - Machines
+      responses:
+        "200":
+          description: List of all vending machines
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Machine"
+
+  /api/machines/{machine_id}/products:
+    get:
+      summary: Get products available in a vending machine
+      operationId: getMachineProducts
+      tags:
+        - Products
+      parameters:
+        - name: machine_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of products in the vending machine
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+
+  /api/machines/{machine_id}/insert-coin:
+    post:
+      summary: Insert a coin into a vending machine
+      operationId: insertCoin
+      tags:
+        - Machines
+      parameters:
+        - name: machine_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Coin inserted successfully
+        "404":
+          description: Machine not found
+        "400":
+          description: Machine is busy
+
+  /api/machines/{machine_id}/select-product/{product_id}:
+    post:
+      summary: Select a product from the vending machine
+      operationId: selectProduct
+      tags:
+        - Products
+      parameters:
+        - name: machine_id
+          in: path
+          required: true
+          schema:
+            type: integer
+        - name: product_id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Product dispensed successfully
+        "404":
+          description: Machine or product not found
+        "400":
+          description: Machine is not ready or product is out of stock
+
+components:
+  schemas:
+    Machine:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        location:
+          type: string
+        status:
+          type: string
+          enum: [idle, processing]
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        stock:
+          type: integer
