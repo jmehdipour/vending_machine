@@ -7,7 +7,3 @@ $router->get('machines/{machineId}/products', 'ProductController@getMachineProdu
 
 $router->post('/machines/{machineId}/insert-coin', 'MachineController@insertCoin');
 $router->post('/machines/{machineId}/select-product', 'ProductController@selectProduct');
-
-$router->get('/salam', function () {
-    return response()->json(['message' => 'salam, Lumen!']);
-});

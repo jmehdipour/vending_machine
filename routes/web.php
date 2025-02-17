@@ -21,6 +21,4 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->get('/hello', function () {
         return response()->json(['message' => 'Hello, Lumen!']);
     });
-
-
 });
