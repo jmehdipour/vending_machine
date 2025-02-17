@@ -1,0 +1,9 @@
+/vendor/
+/storage/
+/*.env
+/.env.example
+/.idea/
+/tests/.env
+*.log
+*.sql
+*.sqlite
