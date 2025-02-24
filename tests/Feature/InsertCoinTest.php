@@ -19,14 +19,13 @@ class InsertCoinTest extends TestCase
 
         $response->seeStatusCode(200)
             ->seeJson(['message' => 'Coin inserted, you can select a product.']);
-
         $this->seeInDatabase('machines', [
             'id' => $machine->id,
             'status' => MachineStatus::PROCESSING
         ]);
     }
 
-    public function testInsertCoin_WhenMachineIsBusy_ReturnsErrorMessage()
+    public function testInsertCoin_WhenMachineIsBusy_Returns400Error()
     {
         $machine = Machine::factory()->create(['status' => MachineStatus::PROCESSING]);
 
@@ -34,7 +33,6 @@ class InsertCoinTest extends TestCase
 
         $response->seeStatusCode(400)
             ->seeJson(['error' => 'Machine is busy']);
-
         $this->seeInDatabase('machines', [
             'id' => $machine->id,
             'status' => MachineStatus::PROCESSING
