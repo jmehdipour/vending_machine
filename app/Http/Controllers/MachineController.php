@@ -34,8 +34,11 @@ class MachineController extends BaseController
             return response()->json(['error' => 'Machine is busy'], 400);
         }
 
-        $this->machineRepository->updateStatus($machineId, MachineStatus::PROCESSING->value);
-
-        return response()->json(['message' => 'Coin inserted, you can select a product.']);
+        $updated = $this->machineRepository->updateStatus($machineId, MachineStatus::PROCESSING->value);
+        if ($updated) {
+            return response()->json(['message' => 'Coin inserted, you can select a product.']);
+        } else {
+            return response()->json(['error' => 'Failed to update machine status'], 500);
+        }
     }
 }

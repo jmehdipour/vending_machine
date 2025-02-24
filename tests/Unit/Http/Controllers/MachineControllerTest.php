@@ -83,19 +83,37 @@ class MachineControllerTest extends TestCase
     public function testInsertCoin_WhenMachineIsIdle_UpdatesStatusAndReturnsSuccessMessage()
     {
         $machineId = 1;
-        $machine = (object)['status' => MachineStatus::IDLE->value];
         $this->machineRepository->shouldReceive('findById')
             ->with($machineId)
-            ->andReturn($machine);
+            ->andReturn((object)['id' => 1, 'status' => MachineStatus::IDLE->value]);
         $this->machineRepository->shouldReceive('updateStatus')
             ->with($machineId, MachineStatus::PROCESSING->value)
-            ->once();
+            ->once()
+            ->andReturn(1);
 
         $response = $this->controller->insertCoin($machineId);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
         $this->assertEquals(200, $response->status());
         $this->assertEquals(['message' => 'Coin inserted, you can select a product.'], $response->getData(true));
+    }
+
+    public function testInsertCoin_UnsuccessfulUpdate_Returns500Error()
+    {
+        $machineId = 1;
+        $this->machineRepository->shouldReceive('findById')
+            ->with($machineId)
+            ->andReturn((object)['id' => 1, 'status' => MachineStatus::IDLE->value]);
+        $this->machineRepository->shouldReceive('updateStatus')
+            ->with($machineId, MachineStatus::PROCESSING->value)
+            ->once()
+            ->andReturn(0);
+
+        $response = $this->controller->insertCoin($machineId);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(500, $response->status());
+        $this->assertEquals(['error' => 'Failed to update machine status'], $response->getData(true));
     }
 
     protected function tearDown(): void
