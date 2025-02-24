@@ -51,19 +51,12 @@ class MachineRepositoryTest extends TestCase
     {
         $machine = Machine::factory()->create(['status' => MachineStatus::IDLE->value]);
 
-        $updatedMachine = $this->repository->updateStatus($machine->id, MachineStatus::PROCESSING->value);
+        $updateCount = $this->repository->updateStatus($machine->id, MachineStatus::PROCESSING->value);
 
-        $this->assertEquals(MachineStatus::PROCESSING->value, $updatedMachine->status);
+        $this->assertEquals(1, $updateCount);
         $this->seeInDatabase('machines', [
             'id' => $machine->id,
             'status' => MachineStatus::PROCESSING->value,
         ]);
-    }
-
-    public function testUpdateStatus_WhenMachineDoesNotExist_ThrowsModelNotFoundException()
-    {
-        $this->expectException(ModelNotFoundException::class);
-
-        $this->repository->updateStatus(999, 'active');
     }
 }

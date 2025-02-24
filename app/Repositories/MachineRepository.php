@@ -19,9 +19,6 @@ class MachineRepository implements MachineRepositoryInterface
 
     public function updateStatus($machineId, $status)
     {
-        $machine = Machine::findOrFail($machineId);
-        $machine->status = $status;
-        $machine->save();
-        return $machine;
+        return Machine::where('id', $machineId)->update(['status' => $status]);
     }
 }
