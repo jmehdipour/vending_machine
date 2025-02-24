@@ -19,6 +19,7 @@ class MachineController extends BaseController
     public function getAllMachines(): JsonResponse
     {
         $machines = $this->machineRepository->findAll();
+
         return response()->json($machines);
     }
 
