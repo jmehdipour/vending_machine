@@ -35,7 +35,7 @@ class MachineControllerTest extends TestCase
         $response = $this->controller->getAllMachines();
 
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $response->status());
         $this->assertEquals($machines, $response->getData());
     }
 
@@ -48,7 +48,7 @@ class MachineControllerTest extends TestCase
         $response = $this->controller->getAllMachines();
 
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $response->status());
         $this->assertEquals([], $response->getData());
     }
 
@@ -98,7 +98,7 @@ class MachineControllerTest extends TestCase
         $this->assertEquals(['message' => 'Coin inserted, you can select a product.'], $response->getData(true));
     }
 
-    public function testInsertCoin_UnsuccessfulUpdate_Returns500Error()
+    public function testInsertCoin_WhenUpdateIsUnsuccessful_Returns500Error()
     {
         $machineId = 1;
         $this->machineRepository->shouldReceive('findById')
