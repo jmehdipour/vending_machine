@@ -19,7 +19,7 @@ class GetAllMachinesTest extends TestCase
 
         $response->seeStatusCode(200)
             ->seeJsonStructure([
-                '*' => ['id', 'status', 'created_at', 'updated_at']
+                '*' => ['id', 'location', 'name', 'status', 'created_at', 'updated_at']
             ]);
     }
 
