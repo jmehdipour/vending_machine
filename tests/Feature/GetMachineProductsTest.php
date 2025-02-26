@@ -12,6 +12,12 @@ class GetMachineProductsTest extends TestCase
 {
     use DatabaseMigrations;
 
+    public function testGetMachineProducts_WhenMachineDoesNotExist_Returns404Error()
+    {
+        $response = $this->get('/api/machines/1/products');
+
+       $response->seeStatusCode(404)->seeJson(['error' => 'Machine not found']);
+    }
     public function testGetMachineProducts_WhenProductsExist_Success()
     {
         $machine = Machine::factory()->create();
