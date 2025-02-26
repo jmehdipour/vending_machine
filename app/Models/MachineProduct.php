@@ -15,10 +15,10 @@ class MachineProduct extends Model
 
     public function machine(): BelongsTo
     {
-        return $this->belongsTo(Machine::class);
+        return $this->belongsTo(Machine::class, 'machine_id');
     }
 
-    public function product()
+    public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class, 'product_id');
     }

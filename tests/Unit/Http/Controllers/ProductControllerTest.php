@@ -29,12 +29,30 @@ class ProductControllerTest extends TestCase
         $this->controller = new ProductController($this->productRepository, $this->machineRepository, $this->transactionRepository);
     }
 
+    public function testGetMachineProducts_WhenMachineDoesNotExist_Returns404Error() {
+        $machineId = 123;
+        $this->machineRepository->shouldReceive('findById')
+            ->with($machineId)
+            ->once()
+            ->andReturn(null);
+
+        $response = $this->controller->getMachineProducts($machineId);
+
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertEquals(404, $response->getStatusCode());
+        $this->assertEquals(['error' => 'Machine not found'], $response->getData(true));
+    }
+
     public function testGetMachineProducts_WhenProductsExist_ReturnsProductList()
     {
         $machineId = 1;
         $products = collect([
             (object)['id' => 1, 'machine_id' => $machineId, 'product_id' => 10, 'stock' => 5, 'product' => (object)['name' => 'Water']]
         ]);
+        $this->machineRepository->shouldReceive('findById')
+            ->with($machineId)
+            ->once()
+            ->andReturn((object)['id' => $machineId]);
         $this->productRepository->shouldReceive('getProductsByMachine')
             ->with($machineId)
             ->once()
@@ -52,6 +70,10 @@ class ProductControllerTest extends TestCase
     public function testGetMachineProducts_WhenNoProductsExist_ReturnsEmptyArray()
     {
         $machineId = 1;
+        $this->machineRepository->shouldReceive('findById')
+            ->with($machineId)
+            ->once()
+            ->andReturn((object)['id' => $machineId]);
         $this->productRepository->shouldReceive('getProductsByMachine')
             ->with($machineId)
             ->once()

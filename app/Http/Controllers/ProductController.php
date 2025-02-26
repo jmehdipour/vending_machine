@@ -32,6 +32,11 @@ class ProductController extends BaseController
 
     public function getMachineProducts($machineId): JsonResponse
     {
+        $machine = $this->machineRepository->findById($machineId);
+        if (!$machine) {
+            return response()->json(['error' => 'Machine not found'], 404);
+        }
+
         $products = $this->productRepository->getProductsByMachine((int)$machineId);
 
         $filteredProducts = $products->map(function ($machineProduct) {
