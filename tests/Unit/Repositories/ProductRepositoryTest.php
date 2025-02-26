@@ -38,9 +38,6 @@ class ProductRepositoryTest extends TestCase
         $this->assertEquals($machine->id, $products[0]->machine_id);
     }
 
-    /**
-     * Test decrementing product stock.
-     */
     public function testDecrementProductStock_WhenValidData_DecreasesStock()
     {
         $machine = Machine::factory()->create();
@@ -73,12 +70,8 @@ class ProductRepositoryTest extends TestCase
         $this->assertEquals(0, $machineProduct->stock);
     }
 
-    /**
-     * Test getting product stock in a machine.
-     */
     public function testGetProductStockInMachine_WhenValidData_ReturnsStock()
     {
-        // Arrange: Create a machine, a product, and associate them
         $machine = Machine::factory()->create();
         $product = Product::factory()->create();
         MachineProduct::factory()->create([

@@ -189,12 +189,7 @@ class ProductControllerTest extends TestCase
             ->with($machineId, $productId)
             ->once()
             ->andThrow(new \Exception("Stock decrement failed"));
-
         $this->machineRepository->shouldNotReceive('updateStatus');
-
-        DB::shouldReceive('transaction')->andReturnUsing(function ($callback) {
-            return $callback();
-        });
 
         $response = $this->controller->selectProduct($request, $machineId);
 
