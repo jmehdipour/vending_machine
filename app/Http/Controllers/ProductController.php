@@ -55,7 +55,6 @@ class ProductController extends BaseController
     public function selectProduct(Request $request, int $machineId): JsonResponse
     {
         $productId = $request->input('product_id');
-
         if (!$productId) {
             return response()->json(['error' => 'Product ID is required'], 400);
         }
